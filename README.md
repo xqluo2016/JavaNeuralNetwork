@@ -6,3 +6,4 @@ This is a Java implementation of Artificial Neural Networks algrithms used with 
 The series of blog post is available in :
 1. WeChat Subscription Account "javaresearcher" in Chinese language. 
 
+
