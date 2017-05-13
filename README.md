@@ -7,3 +7,4 @@ The series of blog post is available in :
 1. WeChat Subscription Account "javaresearcher" in Chinese language. 
 
 
+Copyright of the handwritten data belongs to MNIST, it is here only as test data of the code here. 
