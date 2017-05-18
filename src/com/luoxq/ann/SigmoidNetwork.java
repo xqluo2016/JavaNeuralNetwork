@@ -10,6 +10,7 @@ import static com.luoxq.ann.Util.*;
 public class SigmoidNetwork implements NeuralNetwork {
     int[] shape;
     int layers;
+    double learningRate = 1;
     double[][][] weights;
     double[][] bias;
     double[][] zs;
@@ -75,9 +76,13 @@ public class SigmoidNetwork implements NeuralNetwork {
     }
 
     @Override
-    public void train(double[] in, double[] expect, double rate) {
+    public double[] train(double[] in, double[] expect) {
         double[] y = f(in);
         double[] cost = sub(expect, y);
+        return train(cost);
+    }
+
+    public double[] train(double[] cost) {
         double[][][] dw = new double[layers][][];
         double[][] db = new double[layers][];
         dw[0] = new double[0][0];
@@ -89,9 +94,9 @@ public class SigmoidNetwork implements NeuralNetwork {
             db[i] = cost;
             cost = dx(weights[i], cost);
         }
-
-        weights = add(weights, mul(dw, rate));
-        bias = add(bias, mul(db, rate));
+        weights = add(weights, mul(dw, learningRate));
+        bias = add(bias, mul(db, learningRate));
+        return cost;
     }
 
     @Override
@@ -104,6 +109,13 @@ public class SigmoidNetwork implements NeuralNetwork {
         return outputSize;
     }
 
+    public double getLearningRate() {
+        return learningRate;
+    }
+
+    public void setLearningRate(double learningRate) {
+        this.learningRate = learningRate;
+    }
 
     //derivative of x is w*c and sum for each x
     double[] dx(double[][] w, double[] c) {

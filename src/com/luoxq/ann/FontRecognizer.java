@@ -42,6 +42,7 @@ public class FontRecognizer {
         System.out.println("Shape: " + Arrays.toString(shape));
         System.out.println("Data Size: " + data.size());
         double rate = 2;
+        nn.setLearningRate(rate);
         System.out.println("Rate:" + rate);
         if (data.size() == 0) {
             return;
@@ -51,7 +52,7 @@ public class FontRecognizer {
         long time = System.currentTimeMillis();
         for (int i = 0; i < 100000000; i++) {
             for (Data d : data) {
-                nn.train(d.data, d.output, rate);
+                nn.train(d.data, d.output);
             }
 
             if (i < 10 || i % 10 == 0) {

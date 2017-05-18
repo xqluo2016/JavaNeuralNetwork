@@ -41,10 +41,10 @@ public class Test7 {
         System.out.println("Training...");
         int epochs = 1000;
         double rate = 10;
-
+        nn.setLearningRate(rate);
         for (int epoch = 0; epoch < epochs; epoch++) {
             for (int sample = 0; sample < x.length; sample++)
-                nn.train(x[sample], expect[sample], rate);
+                nn.train(x[sample], expect[sample]);
         }
         System.out.println("Testing: ");
         cost = getCost(nn);

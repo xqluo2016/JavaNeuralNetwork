@@ -19,9 +19,11 @@ public class MnistTest {
         System.out.println("Epoch,Time,Correctness\n----------------------");
         long time = System.currentTimeMillis();
         Mnist.Data[] data = mnist.getTrainingSlice(0, 60000);
+
+        nn.setLearningRate(rate);
         for (int epoch = 1; epoch <= epochs; epoch++) {
             for (int sample = 0; sample < data.length; sample++) {
-                nn.train(data[sample].input, data[sample].output, rate);
+                nn.train(data[sample].input, data[sample].output);
             }
             long seconds = (System.currentTimeMillis() - time) / 1000;
             System.out.println(epoch + ", " + seconds + ", " +
