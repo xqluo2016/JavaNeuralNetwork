@@ -26,7 +26,7 @@ public class FontRecognizer {
 
     private List<Data> data;
     int[] shape = {20 * 15, 20, 15, 95};
-    NeuralNetwork nn = new NeuralNetwork(shape);
+    SigmoidNetwork nn = new SigmoidNetwork(shape);
 
     public int test() {
         int correct = 0;

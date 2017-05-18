@@ -1,14 +1,13 @@
 package com.luoxq.ann;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class MnistTest {
 
 
     public static void main(String... args) {
-        int[] shape = {28 * 28, 40, 10};
-        NeuralNetwork nn = new NeuralNetwork(shape);
+        int[] shape = {28 * 28, 40, 10, 10};
+        SigmoidNetwork nn = new SigmoidNetwork(shape);
         Mnist mnist = new Mnist();
         mnist.load();
         mnist.shuffle();
@@ -30,7 +29,7 @@ public class MnistTest {
         }
     }
 
-    private static int test(NeuralNetwork nn, Mnist mnist) {
+    private static int test(SigmoidNetwork nn, Mnist mnist) {
         int correct = 0;
         Mnist.Data[] data = mnist.getTestSlice(0, 10000);
         for (int sample = 0; sample < data.length; sample++) {

@@ -31,7 +31,7 @@ public class Test7 {
     };
 
     public static void main(String... args) {
-        NeuralNetwork nn = new NeuralNetwork(7, 10);
+        SigmoidNetwork nn = new SigmoidNetwork(7, 10);
 
 
         System.out.println("Testing: ");
@@ -53,7 +53,7 @@ public class Test7 {
     }
 
 
-    static double getCost(NeuralNetwork nn) {
+    static double getCost(SigmoidNetwork nn) {
         double cost = 0;
         for (int i = 0; i < x.length; i++) {
             double[] y = nn.f(x[i]);
