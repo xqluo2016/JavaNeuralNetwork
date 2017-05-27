@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.Random;
 import java.util.zip.GZIPInputStream;
 
@@ -13,26 +12,18 @@ import java.util.zip.GZIPInputStream;
  */
 public class Mnist {
 
-
-    static class Data {
-        public byte[] data;
-        public int label;
-        public double[] input;
-        public double[] output;
-    }
-
     public static void main(String... args) throws Exception {
         Mnist mnist = new Mnist();
         mnist.load();
-        System.out.println("Data loaded.");
+        System.out.println("DataRecord loaded.");
         Random rand = new Random(System.nanoTime());
         for (int i = 0; i < 20; i++) {
             int idx = rand.nextInt(60000);
-            Data d = mnist.getTrainingData(idx);
+            DataRecord d = mnist.getTrainingData(idx);
             BufferedImage img = new BufferedImage(28, 28, BufferedImage.TYPE_INT_RGB);
             for (int x = 0; x < 28; x++) {
                 for (int y = 0; y < 28; y++) {
-                    img.setRGB(x, y, toRgb(d.data[y * 28 + x]));
+                    img.setRGB(x, y, toRgb((int) (d.input[y * 28 + x]) * 255));
                 }
             }
             File output = new File(i + "_" + d.label + ".png");
@@ -43,41 +34,41 @@ public class Mnist {
         }
     }
 
-    static int toRgb(byte bb) {
+    static int toRgb(int bb) {
         int b = (255 - (0xff & bb));
         return (b << 16 | b << 8 | b) & 0xffffff;
     }
 
 
-    Data[] trainingSet;
-    Data[] testSet;
+    DataRecord[] trainingSet;
+    DataRecord[] testSet;
 
     public void shuffle() {
         Random rand = new Random();
         for (int i = 0; i < trainingSet.length; i++) {
             int x = rand.nextInt(trainingSet.length);
-            Data d = trainingSet[i];
+            DataRecord d = trainingSet[i];
             trainingSet[i] = trainingSet[x];
             trainingSet[x] = trainingSet[i];
         }
     }
 
-    public Data getTrainingData(int idx) {
+    public DataRecord getTrainingData(int idx) {
         return trainingSet[idx];
     }
 
-    public Data[] getTrainingSlice(int start, int count) {
-        Data[] ret = new Data[count];
+    public DataRecord[] getTrainingSlice(int start, int count) {
+        DataRecord[] ret = new DataRecord[count];
         System.arraycopy(trainingSet, start, ret, 0, count);
         return ret;
     }
 
-    public Data getTestData(int idx) {
+    public DataRecord getTestData(int idx) {
         return testSet[idx];
     }
 
-    public Data[] getTestSlice(int start, int count) {
-        Data[] ret = new Data[count];
+    public DataRecord[] getTestSlice(int start, int count) {
+        DataRecord[] ret = new DataRecord[count];
         System.arraycopy(testSet, start, ret, 0, count);
         return ret;
     }
@@ -87,24 +78,24 @@ public class Mnist {
         trainingSet = load("/train-images-idx3-ubyte.gz", "/train-labels-idx1-ubyte.gz");
         testSet = load("/t10k-images-idx3-ubyte.gz", "/t10k-labels-idx1-ubyte.gz");
         if (trainingSet.length != 60000 || testSet.length != 10000) {
-            throw new RuntimeException("Unexpected training/test data size: " + trainingSet.length + "/" + testSet.length);
+            throw new RuntimeException("Unexpected training/test input size: " + trainingSet.length + "/" + testSet.length);
         }
     }
 
-    private Data[] load(String imgFile, String labelFile) {
+    private DataRecord[] load(String imgFile, String labelFile) {
         byte[][] images = loadImages(imgFile);
         byte[] labels = loadLabels(labelFile);
         if (images.length != labels.length) {
             throw new RuntimeException("Images and label doesn't match: " + imgFile + " " + labelFile);
         }
         int len = images.length;
-        Data[] data = new Data[len];
+        DataRecord[] data = new DataRecord[len];
         for (int i = 0; i < len; i++) {
-            data[i] = new Data();
-            data[i].data = images[i];
-            data[i].label = 0xff & labels[i];
+            data[i] = new DataRecord();
+            data[i].label = Integer.toString(0xff & labels[i]);
             data[i].input = dataToInput(images[i]);
             data[i].output = labelToOutput(labels[i]);
+            data[i].maxIndex = labels[i];
         }
         return data;
     }

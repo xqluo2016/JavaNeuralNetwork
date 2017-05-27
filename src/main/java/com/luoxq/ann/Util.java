@@ -45,6 +45,16 @@ public class Util {
 
     public static final Random rand = new Random();
 
+    public static void shuffle(Object[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            int x = rand.nextInt(arr.length);
+            int y = rand.nextInt(arr.length);
+            Object o = arr[x];
+            arr[x] = arr[y];
+            arr[y] = o;
+        }
+    }
+
     public static void fillRandom(double[] d) {
         for (int i = 0; i < d.length; i++) {
             d[i] = rand.nextGaussian();

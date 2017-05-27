@@ -2,8 +2,6 @@ package com.luoxq.ann;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static com.luoxq.ann.Util.maxIndex;
 import static org.junit.Assert.assertTrue;
 
@@ -12,7 +10,7 @@ public class MnistTest {
 
     @Test
     public void testSigmoidNetwork() {
-        int epochs = 2;
+        int epochs = 100;
         double rate = 0.5;
         int[] shape = {28 * 28, 50, 10};
         NeuralNetwork nn = new SigmoidNeuralNetwork(shape);
@@ -30,11 +28,14 @@ public class MnistTest {
         System.out.println("Learning rate: " + nn.getLearningRate());
         System.out.println("Epoch,Time,Correctness\n----------------------");
         long time = System.currentTimeMillis();
-        Mnist.Data[] data = mnist.getTrainingSlice(0, 60000);
+        DataRecord[] data = mnist.getTrainingSlice(0, 60000);
         int correct = 0;
         for (int epoch = 1; epoch <= epochs; epoch++) {
+            Util.shuffle(data);
             for (int sample = 0; sample < data.length; sample++) {
-                nn.train(data[sample].input, data[sample].output);
+                DataRecord row = data[sample];
+                if (!row.correct)
+                    nn.train(row.input, row.output);
             }
             long seconds = (System.currentTimeMillis() - time) / 1000;
             System.out.println(epoch + ", " + seconds + ", " +
@@ -45,10 +46,14 @@ public class MnistTest {
 
     private static int test(NeuralNetwork nn, Mnist mnist) {
         int correct = 0;
-        Mnist.Data[] data = mnist.getTestSlice(0, 10000);
+        DataRecord[] data = mnist.getTestSlice(0, 10000);
         for (int sample = 0; sample < data.length; sample++) {
-            if (maxIndex(nn.f(data[sample].input)) == data[sample].label) {
+            DataRecord row = data[sample];
+            if (maxIndex(nn.f(row.input)) == row.maxIndex) {
                 correct++;
+                row.correct = true;
+            } else {
+                row.correct = false;
             }
         }
         return correct;

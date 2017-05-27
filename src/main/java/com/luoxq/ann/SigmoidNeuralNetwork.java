@@ -8,6 +8,7 @@ import static java.lang.Math.exp;
 import static com.luoxq.ann.Util.*;
 
 public class SigmoidNeuralNetwork implements NeuralNetwork {
+
     int[] shape;
     int layers;
     double learningRate = 1;
