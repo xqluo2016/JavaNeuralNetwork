@@ -47,7 +47,7 @@ public class FontRecognizer {
     public void train() {
         System.out.println("Shape: " + Arrays.toString(shape));
         System.out.println("DataRecord Size: " + data.length);
-        double rate = 3;
+        double rate = 2.0;
         nn.setLearningRate(rate);
         System.out.println("Rate:" + rate);
         if (data == null || data.length == 0) {
@@ -56,27 +56,25 @@ public class FontRecognizer {
         double correct = test(false) * 1.0 / data.length;
         System.out.println("Initial correct rate:" + correct);
         long time = System.currentTimeMillis();
-        for (int i = 0; i < 100000000; i++) {
+        for (int i = 0; i < 10000; i++) {
             Util.shuffle(data);
             for (DataRecord d : data) {
                 if (!d.correct)
                     nn.train(d.input, d.output);
             }
 
-            if (i < 10 || i % 10 == 0) {
-                double c = test(false) * 1.0 / data.length;
-                if (c > correct) {
-                    correct = c;
-                    System.out.println(i + ",\t" + (System.currentTimeMillis() - time) / 1000 + ",\t" + correct);
-                    if (c > 0.95) {
-                        try (ObjectOutputStream out = new ObjectOutputStream(
-                                new FileOutputStream("Font." + nn.getClass().getName() + "." + c + ".ser"))) {
-                            out.writeObject(nn);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                        test(true);
+            double c = test(false) * 1.0 / data.length;
+            if (c != correct) {
+                correct = c;
+                System.out.println(i + ",\t" + (System.currentTimeMillis() - time) / 1000 + ",\t" + correct);
+                if (c > 0.95) {
+                    try (ObjectOutputStream out = new ObjectOutputStream(
+                            new FileOutputStream("Font." + nn.getClass().getName() + "." + c + ".ser"))) {
+                        out.writeObject(nn);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
+                    test(true);
                 }
             }
         }
