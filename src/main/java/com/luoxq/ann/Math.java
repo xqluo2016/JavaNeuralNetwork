@@ -9,6 +9,22 @@ import static java.lang.Math.exp;
  */
 public class Math {
 
+    public static double exp(double v) {
+        return java.lang.Math.exp(v);
+    }
+
+    public static double abs(double v) {
+        return v < 0 ? -v : v;
+    }
+
+    public static double max(double a, double b) {
+        return a > b ? a : b;
+    }
+
+    public static double max(double a, double b, double c) {
+        return a > b ? (a > c ? a : c) : (b > c ? b : c);
+    }
+
     public interface Op {
         double map(double d);
     }
@@ -29,6 +45,16 @@ public class Math {
             d[i] = d[i - 1] + step;
         }
         return d;
+    }
+
+    public static double max(double[] d) {
+        double max = d[0];
+        for (int i = 1; i < d.length; i++) {
+            if (max < d[i]) {
+                max = d[i];
+            }
+        }
+        return max;
     }
 
     public static int maxIndex(double[] d) {
