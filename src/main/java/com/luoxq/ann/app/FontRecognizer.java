@@ -26,7 +26,7 @@ public class FontRecognizer {
         StringBuilder sb = new StringBuilder();
         int correct = 0;
         for (DataRecord d : data) {
-            int maxIndex = Math.maxIndex(nn.f(d.input));
+            int maxIndex = Math.maxIndex(nn.call(d.input));
             if (maxIndex == d.maxIndex) {
                 correct++;
                 d.correct = true;

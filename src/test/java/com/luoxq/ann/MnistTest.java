@@ -74,7 +74,7 @@ public class MnistTest {
         DataRecord[] data = mnist.getTestSlice(0, 10000);
         for (int sample = 0; sample < data.length; sample++) {
             DataRecord row = data[sample];
-            if (maxIndex(nn.f(row.input)) == row.maxIndex) {
+            if (maxIndex(nn.call(row.input)) == row.maxIndex) {
                 correct++;
                 row.correct = true;
             } else {

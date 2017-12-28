@@ -19,7 +19,7 @@ public class SigmoidNeuralNetworkTest {
         }
         for (int i = 0; i < count; i++) {
             SigmoidNeuralNetwork n = new SigmoidNeuralNetwork(900, 30, 30, 1);
-            double v = n.f(in)[0];
+            double v = n.call(in)[0];
             total += v;
             //System.out.println(v);
         }
