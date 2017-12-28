@@ -2,10 +2,8 @@ package com.luoxq.ann;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.Random;
 
-import static java.lang.Math.exp;
-import static com.luoxq.ann.Util.*;
+import static com.luoxq.ann.Math.*;
 
 public class SigmoidNeuralNetwork implements NeuralNetwork {
 

@@ -3,7 +3,7 @@ package com.luoxq.ann;
 import com.luoxq.ann.app.Mnist;
 import org.junit.Test;
 
-import static com.luoxq.ann.Util.maxIndex;
+import static com.luoxq.ann.Math.maxIndex;
 import static org.junit.Assert.assertTrue;
 
 public class MnistTest {
@@ -55,7 +55,7 @@ public class MnistTest {
         DataRecord[] data = mnist.getTrainingSlice(0, 60000);
         int correct = 0;
         for (int epoch = 1; epoch <= epochs; epoch++) {
-            Util.shuffle(data);
+            Math.shuffle(data);
             for (int sample = 0; sample < data.length; sample++) {
                 DataRecord row = data[sample];
                 if (!row.correct)
@@ -63,7 +63,7 @@ public class MnistTest {
             }
             long seconds = (System.currentTimeMillis() - time) / 1000;
             int result = train(nn, mnist);
-            correct = Math.max(correct, result);
+            correct = java.lang.Math.max(correct, result);
             System.out.println(epoch + ", " + seconds + ", " + result);
         }
         return correct;

@@ -1,8 +1,5 @@
 package com.luoxq.ann;
 
-import com.luoxq.ann.NeuralNetwork;
-import com.luoxq.ann.Util;
-
 /**
  * Created by luoxq on 2017/5/21.
  */
@@ -27,7 +24,7 @@ public class LinkedNeuralNetwork implements NeuralNetwork {
     @Override
     public double[] train(double[] in, double[] expect) {
         double[] out = f(in);
-        double[] delta = Util.sub(expect, out);
+        double[] delta = Math.sub(expect, out);
         return train(delta);
     }
 

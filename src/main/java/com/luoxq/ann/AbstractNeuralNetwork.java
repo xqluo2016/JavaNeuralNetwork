@@ -7,7 +7,7 @@ public abstract class AbstractNeuralNetwork implements NeuralNetwork {
 
     public double[] train(double[] in, double[] expect) {
         double[] out = f(in);
-        double[] delta = Util.sub(expect, out);
+        double[] delta = Math.sub(expect, out);
         return train(delta);
     }
 

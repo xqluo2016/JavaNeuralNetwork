@@ -7,7 +7,7 @@ import static java.lang.Math.exp;
 /**
  * Created by luoxq on 17/4/16.
  */
-public class Util {
+public class Math {
 
     public interface Op {
         double map(double d);
@@ -22,7 +22,7 @@ public class Util {
     }
 
     public static double[] range(double start, double end, double step) {
-        int size = Math.abs((int) ((end - start) / step)) + 1;
+        int size = java.lang.Math.abs((int) ((end - start) / step)) + 1;
         double[] d = new double[size];
         d[0] = start;
         for (int i = 1; i < d.length; i++) {

@@ -2,7 +2,7 @@ package com.luoxq.ann.app;
 
 import com.luoxq.ann.DataRecord;
 import com.luoxq.ann.SigmoidNeuralNetwork;
-import com.luoxq.ann.Util;
+import com.luoxq.ann.Math;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -26,7 +26,7 @@ public class FontRecognizer {
         StringBuilder sb = new StringBuilder();
         int correct = 0;
         for (DataRecord d : data) {
-            int maxIndex = Util.maxIndex(nn.f(d.input));
+            int maxIndex = Math.maxIndex(nn.f(d.input));
             if (maxIndex == d.maxIndex) {
                 correct++;
                 d.correct = true;
@@ -56,7 +56,7 @@ public class FontRecognizer {
         System.out.println("Initial correct rate:" + correct);
         long time = System.currentTimeMillis();
         for (int i = 0; i < epoches; i++) {
-            Util.shuffle(data);
+            Math.shuffle(data);
             for (DataRecord d : data) {
                 if (!d.correct)
                     nn.train(d.input, d.output);
