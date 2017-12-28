@@ -7,6 +7,7 @@ import com.luoxq.ann.Util;
  * Created by luoxq on 2017/5/21.
  */
 public class LinkedNeuralNetwork implements NeuralNetwork {
+    private static final long serialVersionUID = 1578550361939502383L;
 
     NeuralNetwork[] networks;
 

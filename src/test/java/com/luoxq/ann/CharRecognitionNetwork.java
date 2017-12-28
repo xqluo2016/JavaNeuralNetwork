@@ -1,31 +1,28 @@
 package com.luoxq.ann;
 
-import org.junit.Test;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
-public class CaptchaNetwork {
+public class CharRecognitionNetwork implements Serializable {
 
 
     NeuralNetwork nn = new SigmoidNeuralNetwork(30 * 30, 30, 30, 36);
 
-    List<DataRecord> trainingData = new ArrayList<>();
+    final List<DataRecord> allTrainingData = new ArrayList<>();
+    List<DataRecord> trainingData = allTrainingData;
     List<DataRecord> testData = new ArrayList<>();
+
+    private boolean skipCorrect = false;
 
     static final String chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 
-    @Test
-    public void loadTrainingData() throws IOException {
-        File dir = new File("captcha/split");
-        load(dir, trainingData);
+    public void loadTrainingData(File dir) throws IOException {
+        load(dir, allTrainingData);
     }
 
-    @Test
-    public void loadTestData() throws IOException {
-        File dir = new File("captcha/split/test");
+    public void loadTestData(File dir) throws IOException {
         List<DataRecord> data = this.testData;
         load(dir, data);
     }
@@ -35,20 +32,31 @@ public class CaptchaNetwork {
             if (f.getName().endsWith(".png")) {
                 char txt = Character.toLowerCase(f.getName().charAt(0));
                 BufferedImage img = ImageIO.read(f);
-                double[] in = toDoubles(img);
-                double[] out = new double[36];
-                int index = chars.indexOf(txt);
-                out[index] = 1.0;
-                DataRecord record = new DataRecord();
-                record.input = in;
-                record.output = out;
-                record.label = "" + txt;
-                record.maxIndex = index;
-                data.add(record);
-                printRecord(record);
+                loadRecord(data, txt, img);
             }
         }
         System.out.println("Loaded record " + data.size());
+    }
+
+    public void loadTrainingRecord(char ch, BufferedImage img) {
+        loadRecord(this.allTrainingData, ch, img);
+    }
+
+    public void loadTestRecord(char ch, BufferedImage img) {
+        loadRecord(this.testData, ch, img);
+    }
+
+    private void loadRecord(List<DataRecord> data, char ch, BufferedImage img) {
+        double[] in = toDoubles(img);
+        double[] out = new double[36];
+        int index = chars.indexOf(ch);
+        out[index] = 1.0;
+        DataRecord record = new DataRecord();
+        record.input = in;
+        record.output = out;
+        record.label = "" + ch;
+        record.maxIndex = index;
+        data.add(record);
     }
 
     public void printRecord(DataRecord dr) {
@@ -87,12 +95,27 @@ public class CaptchaNetwork {
 
     public void train() {
         for (DataRecord r : trainingData) {
-            if (!r.correct)
+            if (r.correct && skipCorrect) {
+            } else {
                 nn.train(r.input, r.output);
+            }
         }
     }
 
+    public int cherryPick(int count) {
+        if (allTrainingData != null && allTrainingData.size() > 0) {
+            trainingData = new ArrayList<>();
+            Random rand = new Random(System.currentTimeMillis());
+            for (int i = 0; i < count; i++) {
+                trainingData.add(allTrainingData.get(rand.nextInt(allTrainingData.size())));
+            }
+            return count;
+        }
+        return 0;
+    }
+
     public void shuffleTrainingData() {
+        List<DataRecord> trainingData = this.allTrainingData;
         DataRecord[] array = new DataRecord[trainingData.size()];
         array = trainingData.toArray(array);
         Random rand = new Random(System.currentTimeMillis());
@@ -146,5 +169,17 @@ public class CaptchaNetwork {
     public void load(File file) throws IOException, ClassNotFoundException {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
         nn = (NeuralNetwork) in.readObject();
+    }
+
+    public int getAllTrainingDataSize() {
+        return allTrainingData.size();
+    }
+
+    public void skipCorrect(boolean skip) {
+        this.skipCorrect = skip;
+    }
+
+    public boolean isSkipCorrect() {
+        return this.skipCorrect;
     }
 }

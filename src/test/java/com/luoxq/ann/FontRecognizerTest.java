@@ -1,13 +1,12 @@
 package com.luoxq.ann;
 
+import com.luoxq.ann.app.FontRecognizer;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by luoxq on 2017/7/12.

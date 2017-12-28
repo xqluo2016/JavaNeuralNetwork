@@ -4,6 +4,8 @@ package com.luoxq.ann; /**
 
 public class SingleSigmoidNeuron extends SingleLinearNeuron {
 
+    private static final long serialVersionUID = 1578550361939502383L;
+
     public SingleSigmoidNeuron(double weight, double bias) {
         super(weight, bias);
     }

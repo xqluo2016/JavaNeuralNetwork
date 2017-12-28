@@ -3,6 +3,9 @@ package com.luoxq.ann;
 import java.util.Random;
 
 public class SingleLinearNeuron {
+
+    private static final long serialVersionUID = 1578550361939502383L;
+
     double weight;
     double bias;
 

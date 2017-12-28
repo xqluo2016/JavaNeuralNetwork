@@ -43,7 +43,7 @@ public class Util {
         return idx;
     }
 
-    public static final Random rand = new Random();
+    public static final Random rand = new Random(System.currentTimeMillis());
 
     public static void shuffle(Object[] arr) {
         for (int i = 0; i < arr.length; i++) {

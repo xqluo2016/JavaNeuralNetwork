@@ -4,6 +4,7 @@ package com.luoxq.ann;
  * Created by luoxq on 2017/5/21.
  */
 public class ParallelNeuralNetwork extends AbstractNeuralNetwork implements NeuralNetwork {
+    private static final long serialVersionUID = 1578550361939502383L;
 
     private final NeuralNetwork[] networks;
     private final int inputSize;

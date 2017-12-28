@@ -9,6 +9,8 @@ import static com.luoxq.ann.Util.*;
 
 public class SigmoidNeuralNetwork implements NeuralNetwork {
 
+    private static final long serialVersionUID = 1578550361939502383L;
+
     int[] shape;
     int layers;
     double learningRate = 1;
@@ -19,6 +21,9 @@ public class SigmoidNeuralNetwork implements NeuralNetwork {
 
     int inputSize;
     int outputSize;
+
+    public SigmoidNeuralNetwork() {
+    }
 
     public SigmoidNeuralNetwork(int... shape) {
         this.shape = shape;

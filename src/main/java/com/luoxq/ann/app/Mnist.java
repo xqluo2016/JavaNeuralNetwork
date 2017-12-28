@@ -1,4 +1,6 @@
-package com.luoxq.ann;
+package com.luoxq.ann.app;
+
+import com.luoxq.ann.DataRecord;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
