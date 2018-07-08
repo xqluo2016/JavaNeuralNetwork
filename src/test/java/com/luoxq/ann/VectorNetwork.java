@@ -1,11 +1,13 @@
 package com.luoxq.ann;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+@Ignore
 public class VectorNetwork {
 
     @Test

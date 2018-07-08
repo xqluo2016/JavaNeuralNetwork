@@ -1,5 +1,6 @@
 package com.luoxq.ann;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -8,6 +9,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
+@Ignore
 public class CharRecognitionNetworkTest {
 
     @Test

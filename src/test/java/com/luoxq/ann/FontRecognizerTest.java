@@ -1,6 +1,7 @@
 package com.luoxq.ann;
 
 import com.luoxq.ann.app.FontRecognizer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -11,6 +12,7 @@ import java.io.IOException;
 /**
  * Created by luoxq on 2017/7/12.
  */
+@Ignore
 public class FontRecognizerTest {
 
     @Test
