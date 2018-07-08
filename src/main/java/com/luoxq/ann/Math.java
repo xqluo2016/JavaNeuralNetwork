@@ -25,6 +25,18 @@ public class Math {
         return a > b ? (a > c ? a : c) : (b > c ? b : c);
     }
 
+    public static int maxIndex(double[] out, int start, int end) {
+        double max = out[start];
+        int maxIndex = start;
+        for (int i = start + 1; i < end; i++) {
+            if (out[i] > max) {
+                max = out[i];
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
+
     public interface Op {
         double map(double d);
     }

@@ -3,9 +3,12 @@ package com.luoxq.ann;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
-public class CharRecognitionNetwork implements Serializable {
+public class StringRecognitionNetwork implements Serializable {
 
 
     NeuralNetwork nn;
@@ -19,52 +22,54 @@ public class CharRecognitionNetwork implements Serializable {
     static final String chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 
 
-    public CharRecognitionNetwork(NeuralNetwork nn) {
+    public StringRecognitionNetwork(NeuralNetwork nn) {
         this.nn = nn;
     }
 
-    public CharRecognitionNetwork() {
-        nn = new SigmoidNeuralNetwork(30 * 30, 30, 30, 36);
+    public StringRecognitionNetwork() {
+        nn = new SigmoidNeuralNetwork(160 * 70, 100, 100, 36 * 4);
     }
 
     public void loadTrainingData(File dir) throws IOException {
-        load(dir, allTrainingData);
+        loadDir(dir, allTrainingData);
+        System.out.println("Loaded training record " + allTrainingData.size());
     }
 
     public void loadTestData(File dir) throws IOException {
         List<DataRecord> data = this.testData;
-        load(dir, data);
+        loadDir(dir, data);
+        System.out.println("Loaded test record " + data.size());
     }
 
-    private void load(File dir, List<DataRecord> data) throws IOException {
+    private void loadDir(File dir, List<DataRecord> data) throws IOException {
         for (File f : dir.listFiles()) {
             if (f.getName().endsWith(".png")) {
-                char txt = Character.toLowerCase(f.getName().charAt(0));
                 BufferedImage img = ImageIO.read(f);
-                loadRecord(data, txt, img);
+                loadRecord(data, f.getName().substring(0, 4), img);
             }
         }
-        System.out.println("Loaded record " + data.size());
     }
 
-    public void loadTrainingRecord(char ch, BufferedImage img) {
+    public void loadTrainingRecord(String ch, BufferedImage img) {
         loadRecord(this.allTrainingData, ch, img);
     }
 
-    public void loadTestRecord(char ch, BufferedImage img) {
+    public void loadTestRecord(String ch, BufferedImage img) {
         loadRecord(this.testData, ch, img);
     }
 
-    private void loadRecord(List<DataRecord> data, char ch, BufferedImage img) {
+    private void loadRecord(List<DataRecord> data, String ch, BufferedImage img) {
+        ch = ch.toLowerCase();
         double[] in = toDoubles(img);
-        double[] out = new double[36];
-        int index = chars.indexOf(ch);
-        out[index] = 1.0;
+        double[] out = new double[36 * 4];
+        for (int i = 0; i < 4; i++) {
+            int index = chars.indexOf(ch.charAt(i));
+            out[index] = 1.0;
+        }
         DataRecord record = new DataRecord();
         record.input = in;
         record.output = out;
-        record.label = "" + ch;
-        record.maxIndex = index;
+        record.label = ch;
         data.add(record);
     }
 
@@ -92,14 +97,18 @@ public class CharRecognitionNetwork implements Serializable {
         return data;
     }
 
-    public char recognize(BufferedImage img) {
+    public String recognize(BufferedImage img) {
         double[] in = toDoubles(img);
         return recognize(in);
     }
 
-    private char recognize(double[] in) {
+    private String recognize(double[] in) {
         double[] out = nn.call(in);
-        return chars.charAt(Math.maxIndex(out));
+        char[] ch = new char[4];
+        for (int i = 0; i < 4; i++) {
+            ch[i] = chars.charAt(Math.maxIndex(out, i * 36, (i + 1) * 36) - i * 36);
+        }
+        return new String(ch);
     }
 
     public void train() {
@@ -150,9 +159,9 @@ public class CharRecognitionNetwork implements Serializable {
         int correct = 0;
         int wrong = 0;
         for (DataRecord r : data) {
-            char c = recognize(r.input);
-            char expect = chars.charAt(r.maxIndex);
-            if (c == expect) {
+            String c = recognize(r.input);
+            String expect = r.label;
+            if (c.equals(expect)) {
                 r.correct = true;
                 correct++;
             } else {
