@@ -1,6 +1,5 @@
 .ideas
 .DS_Store
-.gitignore
 .idea/compiler.xml
 .idea/libraries/
 .idea/misc.xml
