@@ -13,17 +13,17 @@ public class LinkedNeuralNetwork implements NeuralNetwork {
     }
 
     @Override
-    public double[] call(double[] in) {
+    public double[] f(double[] in) {
         double[] out = in;
         for (NeuralNetwork n : networks) {
-            out = n.call(out);
+            out = n.f(out);
         }
         return out;
     }
 
     @Override
     public double[] train(double[] in, double[] expect) {
-        double[] out = call(in);
+        double[] out = f(in);
         double[] delta = Math.sub(expect, out);
         return train(delta);
     }

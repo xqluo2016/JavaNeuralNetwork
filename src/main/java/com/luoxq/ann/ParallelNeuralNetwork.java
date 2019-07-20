@@ -23,7 +23,7 @@ public class ParallelNeuralNetwork extends AbstractNeuralNetwork implements Neur
     }
 
     @Override
-    public double[] call(double[] input) {
+    public double[] f(double[] input) {
         double[] output = new double[outputSize];
 
         int inPos = 0;
@@ -34,7 +34,7 @@ public class ParallelNeuralNetwork extends AbstractNeuralNetwork implements Neur
             double[] in = new double[inSize];
             System.arraycopy(input, inPos, in, 0, inSize);
 
-            double[] out = n.call(in);
+            double[] out = n.f(in);
             int outSize = out.length;
             System.arraycopy(out, 0, output, outPos, outSize);
 

@@ -82,7 +82,7 @@ public class SevenDigitTest {
     double check(NeuralNetwork nn) {
         double cost = 0;
         for (int i = 0; i < x.length; i++) {
-            double[] y = nn.call(x[i]);
+            double[] y = nn.f(x[i]);
             System.out.println("output of " + i + ": " + toString(y));
             double[] exp = expect[i];
             cost += getCost(y, exp);

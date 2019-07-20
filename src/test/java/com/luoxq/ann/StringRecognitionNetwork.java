@@ -103,7 +103,7 @@ public class StringRecognitionNetwork implements Serializable {
     }
 
     private String recognize(double[] in) {
-        double[] out = nn.call(in);
+        double[] out = nn.f(in);
         char[] ch = new char[4];
         for (int i = 0; i < 4; i++) {
             ch[i] = chars.charAt(Math.maxIndex(out, i * 36, (i + 1) * 36) - i * 36);

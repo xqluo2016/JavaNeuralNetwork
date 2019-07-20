@@ -98,7 +98,7 @@ public class CharRecognitionNetwork implements Serializable {
     }
 
     private char recognize(double[] in) {
-        double[] out = nn.call(in);
+        double[] out = nn.f(in);
         return chars.charAt(Math.maxIndex(out));
     }
 
