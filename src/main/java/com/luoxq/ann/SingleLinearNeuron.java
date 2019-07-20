@@ -2,27 +2,51 @@ package com.luoxq.ann;
 
 import java.util.Random;
 
+/**
+ * 单个线性神经元。
+ *
+ * 这个神经元的函数是:
+ *  f(x) = w*x + b
+ *
+ * 也就是二维坐标系中的一条直线。
+ *
+ */
 public class SingleLinearNeuron {
 
     private static final long serialVersionUID = 1578550361939502383L;
 
-    double weight;
-    double bias;
+    double w;
+    double b;
 
     public SingleLinearNeuron(double weight, double bias) {
-        this.weight = weight;
-        this.bias = bias;
+        this.w = weight;
+        this.b = bias;
     }
 
+    /**
+     *
+     * 激活函数。
+     *
+     * The activation function.
+     *
+     */
     public double f(double x) {
-        return x * weight + bias;
+        return  w*x + b;
     }
 
+    /**
+     *
+     * 损失函数。对参数x调用激活函数f，并计算结果与期望结果y的差值。
+     *
+     * cost（loss) function.
+     * we use the difference between 'f(x)' and expected 'f(x)' - parameter 'y'.
+     *
+     */
     public double cost(double x, double y) {
         return f(x) - y;
     }
 
-    // c = w*x + b - y
+
     public double[] gradient(double x, double y) {
         double c = cost(x, y);
         double dw = x * c;
@@ -39,8 +63,8 @@ public class SingleLinearNeuron {
             double x = data[i][0];
             double y = data[i][1];
             double[] gradient = gradient(x, y);
-            weight += gradient[0] * rate;
-            bias += gradient[1] * rate;
+            w += gradient[0] * rate;
+            b += gradient[1] * rate;
         }
     }
 
@@ -60,16 +84,4 @@ public class SingleLinearNeuron {
         return data;
     }
 
-    public static void main(String... args) {
-        SingleLinearNeuron n = new SingleLinearNeuron(0, 0);
-        //target: y = 3*x + 3;
-        double rate = 0.1;
-        int epoch = 100;
-        int trainingSize = 20;
-        for (int i = 0; i < epoch; i++) {
-            double[][] data = n.generateTrainingData(trainingSize);
-            n.train(data, rate);
-            System.out.printf("Epoch: %3d,  W: %f, B: %f \n", i, n.weight, n.bias);
-        }
-    }
 }

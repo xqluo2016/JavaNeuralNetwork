@@ -1,10 +1,22 @@
-# JavaNeuralNetwork
-Java Neural Networks
-
-This is a Java implementation of Artificial Neural Networks algrithms used with a series of blog posts to help readers who want to learn Artificial Neural Networks.
-
-The series of blog post is available in :
-1. WeChat Subscription Account "LogicalProgramming". 
+# Java手写神经网络
 
 
-Copyright of the handwritten data belongs to MNIST, it is here only as test data of the code here. 
+这是一个用来学习神经网络的Java项目。
+这是一个从零开始手写的神经网络项目。
+这个项目不依赖除JDK和JUnit之外的任何代码。
+
+微信公众号"逻辑编程"中有关于神经网络基础知识的相关内容。
+
+## 理解这个项目需要具备的知识：
+1. Java语言的基本知识。会写最基本的Java程序就可以。
+2. 数学方面的知识：函数和函数曲线；微积分的基本知识：微分、梯度、链式求导。
+
+
+
+
+
+
+# Java Neural Network
+This is a Java implementation of basic Artificial Neural Networks algorithms to help beginners, especially java programmer, to understand how ANN works.
+
+

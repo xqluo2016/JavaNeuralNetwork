@@ -1,11 +1,5 @@
 .ideas
 .DS_Store
-.idea/compiler.xml
-.idea/libraries/
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/workspace.xml
-LearnANN.iml
-src/main/java/.DS_Stores
+.idea/*
+*.iml
 target/

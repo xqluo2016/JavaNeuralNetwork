@@ -15,7 +15,7 @@ public class SingleSigmoidNeuron extends SingleLinearNeuron {
     }
 
     double z(double x) {
-        return x * weight + bias;
+        return x * w + b;
     }
 
     double sigmoid(double z) {
@@ -50,7 +50,7 @@ public class SingleSigmoidNeuron extends SingleLinearNeuron {
         for (int i = 0; i < epoch; i++) {
             double[][] data = n.generateTrainingData(trainingSize);
             n.train(data, rate);
-            System.out.printf("Epoch: %3d,  W: %f, B: %f \n", i, n.weight, n.bias);
+            System.out.printf("Epoch: %3d,  W: %f, B: %f \n", i, n.w, n.b);
         }
     }
 }

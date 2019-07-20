@@ -30,7 +30,7 @@ public class SigmoidNeuralNetwork implements NeuralNetwork {
         layers = shape.length;
         weights = new double[layers][][];
         bias = new double[layers][];
-        //First layer is input layer, no weight
+        //First layer is input layer, no w
         weights[0] = new double[0][0];
         bias[0] = new double[0];
         zs = new double[layers][];
@@ -45,7 +45,7 @@ public class SigmoidNeuralNetwork implements NeuralNetwork {
 
     public String toJson() {
         return "{type:'" + this.getClass().getName() + "', shape:" + Arrays.toString(shape) + ",weights:"
-                + Arrays.deepToString(weights) + ",bias:" + Arrays.deepToString(bias) + "}";
+                + Arrays.deepToString(weights) + ",b:" + Arrays.deepToString(bias) + "}";
     }
 
     static String toString(double[] d) {
