@@ -1,4 +1,9 @@
-package com.luoxq.ann; /**
+package com.luoxq.ann;
+
+import static com.luoxq.ann.Math.sigmoid;
+import static com.luoxq.ann.Math.sigmoidPrime;
+
+/**
  * Created by luoxq on 17/4/9.
  */
 
@@ -18,10 +23,6 @@ public class SingleSigmoidNeuron extends SingleLinearNeuron {
         return x * w + b;
     }
 
-    double sigmoid(double z) {
-        return 1.0 / (1.0 + Math.exp(-z));
-    }
-
     public double[] gradient(double x, double y) {
         double[] g = super.gradient(x, y);
         double dz = dz(y);
@@ -31,6 +32,6 @@ public class SingleSigmoidNeuron extends SingleLinearNeuron {
     }
 
     protected double dz(double z) {
-        return sigmoid(z) * (1 - sigmoid(z));
+        return sigmoidPrime(z);
     }
 }
