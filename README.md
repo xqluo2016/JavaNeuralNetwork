@@ -1,5 +1,6 @@
-# Java手写神经网络
+# Java神经网络
 
+## 关于
 
 这是一个用来学习神经网络的Java项目。
 这是一个从零开始手写的神经网络项目。
@@ -13,10 +14,7 @@
 
 
 
-
-
-
-# Java Neural Network
+## About
 This is a Java implementation of basic Artificial Neural Networks algorithms to help beginners, especially java programmer, to understand how ANN works.
 
 

@@ -4,10 +4,12 @@ import org.junit.Test;
 
 import java.util.Random;
 
-public class SingleLinearNeuronTest {
+public class SingleSigmoidNeuronTest {
 
 
-    protected SingleLinearNeuron target = new SingleLinearNeuron(3, 3);
+
+
+    protected SingleSigmoidNeuron target = new SingleSigmoidNeuron(3, 3);
 
     public double[][] generateTrainingData(int size) {
         Random rand = new Random(System.nanoTime());
@@ -20,20 +22,18 @@ public class SingleLinearNeuronTest {
         return data;
     }
 
-
     @Test
     public void test() {
-        SingleLinearNeuron n = new SingleLinearNeuron(0, 0);
-        //target: y = 3*x + 3;
-        double rate = 0.001;
-        int epoch = 100;
+        SingleSigmoidNeuron n = new SingleSigmoidNeuron(0, 0);
+        double rate = 0.05;
+        int epoch = 50;
         int trainingSize = 200;
         for (int i = 0; i < epoch; i++) {
             double[][] data = generateTrainingData(trainingSize);
             n.train(data, rate);
             System.out.printf("Epoch: %3d,  W: %f, B: %f \n", i, n.w, n.b);
         }
-        assert (Math.abs(n.w - 3) < 0.1);
-        assert (Math.abs(n.b - 3) < 0.1);
+        assert(Math.abs(n.w-3)<0.1);
+        assert(Math.abs(n.b-3)<0.1);
     }
 }

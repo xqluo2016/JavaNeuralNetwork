@@ -43,6 +43,18 @@ public class SigmoidNeuralNetwork implements NeuralNetwork {
         fillRandom(bias);
     }
 
+    /**
+     * @return 神经网络的形状。数组的长度'[].length'是神经网络测层数。每个元素的值'[i]'代表第i层的神经元数量。
+     * [0]代表输入层（输入向量）的维数; [length-1]代表输入层（输出向量）的维数。
+     */
+    public int[] getShape() {
+        return shape;
+    }
+
+    public int getLayers(){
+        return layers;
+    }
+
     public String toJson() {
         return "{type:'" + this.getClass().getName() + "', shape:" + Arrays.toString(shape) + ",weights:"
                 + Arrays.deepToString(weights) + ",b:" + Arrays.deepToString(bias) + "}";

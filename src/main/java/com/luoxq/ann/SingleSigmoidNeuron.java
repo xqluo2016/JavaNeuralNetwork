@@ -22,11 +22,9 @@ public class SingleSigmoidNeuron extends SingleLinearNeuron {
         return 1.0 / (1.0 + Math.exp(-z));
     }
 
-    // c = w*x + b - y
     public double[] gradient(double x, double y) {
         double[] g = super.gradient(x, y);
-        double z = z(x);
-        double dz = dz(z);
+        double dz = dz(y);
         g[0] *= dz;
         g[1] *= dz;
         return g;
@@ -34,23 +32,5 @@ public class SingleSigmoidNeuron extends SingleLinearNeuron {
 
     protected double dz(double z) {
         return sigmoid(z) * (1 - sigmoid(z));
-    }
-
-    protected SingleLinearNeuron getTarget() {
-        return new SingleSigmoidNeuron(3, 3);
-    }
-
-
-    public static void main(String... args) {
-        SingleSigmoidNeuron n = new SingleSigmoidNeuron(0, 0);
-        //target: y = 3*x + 3;
-        double rate = 5;
-        int epoch = 100;
-        int trainingSize = 20;
-        for (int i = 0; i < epoch; i++) {
-            double[][] data = n.generateTrainingData(trainingSize);
-            n.train(data, rate);
-            System.out.printf("Epoch: %3d,  W: %f, B: %f \n", i, n.w, n.b);
-        }
     }
 }
