@@ -10,8 +10,7 @@ import java.io.Serializable;
 public interface NeuralNetwork extends Serializable {
 
     /**
-     * 激活函数。即这个神经网络所做的计算功能，对于输入in,计算输出。
-     * Activation Function.
+     * 这个神经网络所做的计算功能，对于输入in,计算输出。
      *
      * @param in 输入向量（数组）。数组的长度也就是向量的维数代表这个神经网络接受的输入参数维数。
      * @return 计算的结果向量

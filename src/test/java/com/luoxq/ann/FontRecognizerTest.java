@@ -19,7 +19,7 @@ public class FontRecognizerTest {
     public void test() {
         FontRecognizer r = new FontRecognizer();
         r.loadData();
-        double rate = r.train(100000);
+        double rate = r.train(1000);
         System.out.println("Correct Rate: " + rate);
     }
 

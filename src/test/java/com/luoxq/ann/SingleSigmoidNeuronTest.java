@@ -7,8 +7,6 @@ import java.util.Random;
 public class SingleSigmoidNeuronTest {
 
 
-
-
     protected SingleSigmoidNeuron target = new SingleSigmoidNeuron(3, 3);
 
     public double[][] generateTrainingData(int size) {
@@ -33,7 +31,7 @@ public class SingleSigmoidNeuronTest {
             n.train(data, rate);
             System.out.printf("Epoch: %3d,  W: %f, B: %f \n", i, n.w, n.b);
         }
-        assert(Math.abs(n.w-3)<0.1);
-        assert(Math.abs(n.b-3)<0.1);
+        assert (Math.abs(n.w - 3) < 0.1);
+        assert (Math.abs(n.b - 3) < 0.1);
     }
 }

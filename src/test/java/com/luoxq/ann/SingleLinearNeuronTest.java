@@ -6,7 +6,6 @@ import java.util.Random;
 
 public class SingleLinearNeuronTest {
 
-
     protected SingleLinearNeuron target = new SingleLinearNeuron(3, 3);
 
     public double[][] generateTrainingData(int size) {
