@@ -6,8 +6,6 @@ import com.luoxq.ann.Math;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +24,7 @@ public class FontRecognizer {
         StringBuilder sb = new StringBuilder();
         int correct = 0;
         for (DataRecord d : data) {
-            int maxIndex = Math.maxIndex(nn.f(d.input));
+            int maxIndex = Math.maxIndex(nn.feedforward(d.input));
             if (maxIndex == d.maxIndex) {
                 correct++;
                 d.correct = true;
@@ -67,12 +65,6 @@ public class FontRecognizer {
                 correct = c;
                 System.out.println(i + ",\t" + (System.currentTimeMillis() - time) / 1000 + ",\t" + correct);
                 if (c > 0.95) {
-                    try (ObjectOutputStream out = new ObjectOutputStream(
-                            new FileOutputStream("Font." + nn.getClass().getName() + "." + c + ".ser"))) {
-                        out.writeObject(nn);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
                     test(true);
                 }
             }

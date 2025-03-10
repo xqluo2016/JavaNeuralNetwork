@@ -1,6 +1,7 @@
 package com.luoxq.ann;
 
 import com.luoxq.ann.app.Mnist;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -9,6 +10,16 @@ import static org.junit.Assert.assertTrue;
 
 public class MnistTest {
 
+    @BeforeClass
+    public static void warmUp(){
+        int epochs = 1;
+        double rate = 1;
+        int[] shape = {28 * 28, 50, 10};
+        NeuralNetwork nn = new SigmoidNeuralNetwork(shape);
+        nn.setLearningRate(rate);
+        int correct = train(epochs, nn);
+        assertTrue("correct rate", correct > 8000);
+    }
 
     @Test
     public void test3Layers() {
@@ -32,25 +43,12 @@ public class MnistTest {
         assertTrue("correct rate ", correct > 8000);
     }
 
-    @Ignore
-    @Test
-    public void test5Layers() {
-        int epochs = 1;
-        double rate = 1;
-        int[] shape = {28 * 28, 50, 50, 50, 10};
-        NeuralNetwork nn = new SigmoidNeuralNetwork(shape);
-        nn.setLearningRate(rate);
-        int correct = train(epochs, nn);
-        assertTrue("correct rate ", correct > 8000);
-    }
-
-
-    private int train(int epochs, NeuralNetwork nn) {
+    private static int train(int epochs, NeuralNetwork nn) {
         Mnist mnist = new Mnist();
         mnist.load();
         mnist.shuffle();
         System.out.println("Network: " + nn.toJson());
-        System.out.println("Initial correct rate: " + train(nn, mnist));
+        System.out.println("Initial correct rate: " + test(nn, mnist));
         System.out.println("Learning rate: " + nn.getLearningRate());
         System.out.println("Epoch,Time,Correctness\n----------------------");
         long time = System.currentTimeMillis();
@@ -64,19 +62,19 @@ public class MnistTest {
                     nn.train(row.input, row.output);
             }
             long seconds = (System.currentTimeMillis() - time) / 1000;
-            int result = train(nn, mnist);
+            int result = test(nn, mnist);
             correct = java.lang.Math.max(correct, result);
             System.out.println(epoch + ", " + seconds + ", " + result);
         }
         return correct;
     }
 
-    private static int train(NeuralNetwork nn, Mnist mnist) {
+    private static int test(NeuralNetwork nn, Mnist mnist) {
         int correct = 0;
         DataRecord[] data = mnist.getTestSlice(0, 10000);
         for (int sample = 0; sample < data.length; sample++) {
             DataRecord row = data[sample];
-            if (maxIndex(nn.f(row.input)) == row.maxIndex) {
+            if (maxIndex(nn.feedforward(row.input)) == row.maxIndex) {
                 correct++;
                 row.correct = true;
             } else {

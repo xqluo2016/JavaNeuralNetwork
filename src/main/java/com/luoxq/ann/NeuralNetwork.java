@@ -15,7 +15,7 @@ public interface NeuralNetwork extends Serializable {
      * @param in 输入向量（数组）。数组的长度也就是向量的维数代表这个神经网络接受的输入参数维数。
      * @return 计算的结果向量
      */
-    double[] f(double[] in);
+    double[] feedforward(double[] in);
 
     /**
      * 训练函数

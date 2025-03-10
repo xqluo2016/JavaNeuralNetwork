@@ -28,7 +28,6 @@ public class FontPositionTest {
     @Test
     public void generateImage() throws Exception {
         BufferedImage img = generateKeyImage();
-        ImageIO.write(img, "jpeg", new File("chinese.jpg"));
     }
 
     @Test

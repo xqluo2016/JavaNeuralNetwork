@@ -72,7 +72,7 @@ public class SigmoidNeuralNetwork implements NeuralNetwork {
     }
 
     @Override
-    public double[] f(double[] in) {
+    public double[] feedforward(double[] in) {
         zs[0] = xs[0] = in;
         for (int i = 1; i < layers; i++) {
             zs[i] = add(wx(xs[i - 1], weights[i]), bias[i]);
@@ -93,7 +93,7 @@ public class SigmoidNeuralNetwork implements NeuralNetwork {
 
     @Override
     public double[] train(double[] in, double[] expect) {
-        double[] y = f(in);
+        double[] y = feedforward(in);
         double[] cost = sub(expect, y);
         return train(cost);
     }
